@@ -1,0 +1,1450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solution Hub - Yaounde Municipality Service</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,900;1,900&family=JetBrains+Mono:wght@500;700&display=swap');
+
+    body {
+      font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+      background-color: #F5F5DC;
+      color: #141414;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    ::selection {
+      background-color: #FFD700;
+      color: #001F3F;
+    }
+
+    /* ===== UTILITY CLASSES ===== */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    .space-y-8 > * + * { margin-top: 2rem; }
+    .space-y-6 > * + * { margin-top: 1.5rem; }
+    .space-y-4 > * + * { margin-top: 1rem; }
+    .space-y-2 > * + * { margin-top: 0.5rem; }
+
+    .gap-4 { gap: 1rem; }
+    .gap-6 { gap: 1.5rem; }
+    .gap-8 { gap: 2rem; }
+    .gap-12 { gap: 3rem; }
+
+    .grid { display: grid; }
+    .grid-cols-1 { grid-template-columns: 1fr; }
+    .grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+    .grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+    .grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
+    .grid-cols-6 { grid-template-columns: repeat(6, 1fr); }
+    .md\:grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+    .md\:grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+    .md\:grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
+
+    .flex { display: flex; }
+    .flex-col { flex-direction: column; }
+    .flex-1 { flex: 1; }
+    .flex-\[2\] { flex: 2; }
+    .items-center { align-items: center; }
+    .items-start { align-items: flex-start; }
+    .items-end { align-items: flex-end; }
+    .justify-center { justify-content: center; }
+    .justify-between { justify-content: space-between; }
+
+    .hidden { display: none; }
+    .block { display: block; }
+    .inline-block { display: inline-block; }
+    .inline-flex { display: inline-flex; }
+
+    .rounded-xl { border-radius: 0.75rem; }
+    .rounded-2xl { border-radius: 1rem; }
+    .rounded-3xl { border-radius: 1.5rem; }
+    .rounded-full { border-radius: 9999px; }
+
+    .p-3 { padding: 0.75rem; }
+    .p-4 { padding: 1rem; }
+    .p-6 { padding: 1.5rem; }
+    .p-8 { padding: 2rem; }
+    .p-12 { padding: 3rem; }
+
+    .px-4 { padding-left: 1rem; padding-right: 1rem; }
+    .px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .px-8 { padding-left: 2rem; padding-right: 2rem; }
+
+    .py-1 { padding-top: 0.25rem; padding-bottom: 0.25rem; }
+    .py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+    .py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+    .py-4 { padding-top: 1rem; padding-bottom: 1rem; }
+    .py-8 { padding-top: 2rem; padding-bottom: 2rem; }
+    .py-12 { padding-top: 3rem; padding-bottom: 3rem; }
+    .py-20 { padding-top: 5rem; padding-bottom: 5rem; }
+
+    .pt-0 { padding-top: 0; }
+    .pt-4 { padding-top: 1rem; }
+
+    .pb-20 { padding-bottom: 5rem; }
+
+    .mb-4 { margin-bottom: 1rem; }
+    .mb-12 { margin-bottom: 3rem; }
+
+    .mt-1 { margin-top: 0.25rem; }
+    .mt-4 { margin-top: 1rem; }
+
+    .mx-auto { margin-left: auto; margin-right: auto; }
+
+    .w-full { width: 100%; }
+    .w-auto { width: auto; }
+    .w-8 { width: 2rem; }
+    .w-12 { width: 3rem; }
+    .w-14 { width: 3.5rem; }
+    .w-16 { width: 4rem; }
+    .w-24 { width: 6rem; }
+    .w-32 { width: 8rem; }
+
+    .h-8 { height: 2rem; }
+    .h-12 { height: 3rem; }
+    .h-16 { height: 4rem; }
+    .h-24 { height: 6rem; }
+    .h-32 { height: 8rem; }
+    .h-40 { height: 10rem; }
+    .h-\[1px\] { height: 1px; }
+    .h-\[2px\] { height: 2px; }
+
+    .text-xs { font-size: 0.75rem; }
+    .text-sm { font-size: 0.875rem; }
+    .text-base { font-size: 1rem; }
+    .text-lg { font-size: 1.125rem; }
+    .text-xl { font-size: 1.25rem; }
+    .text-2xl { font-size: 1.5rem; }
+    .text-3xl { font-size: 1.875rem; }
+    .text-4xl { font-size: 2.25rem; }
+    .text-5xl { font-size: 3rem; }
+    .text-6xl { font-size: 3.75rem; }
+
+    .font-400 { font-weight: 400; }
+    .font-500 { font-weight: 500; }
+    .font-600 { font-weight: 600; }
+    .font-bold { font-weight: 700; }
+    .font-black { font-weight: 900; }
+
+    .text-center { text-align: center; }
+    .text-left { text-align: left; }
+    .text-right { text-align: right; }
+
+    .uppercase { text-transform: uppercase; }
+    .italic { font-style: italic; }
+    .underline { text-decoration: underline; }
+
+    .leading-tight { line-height: 1.25; }
+    .leading-relaxed { line-height: 1.625; }
+
+    .tracking-tight { letter-spacing: -0.01em; }
+    .tracking-widest { letter-spacing: 0.1em; }
+    .tracking-\[0\.2em\] { letter-spacing: 0.2em; }
+    .tracking-tighter { letter-spacing: -0.05em; }
+
+    .opacity-0 { opacity: 0; }
+    .opacity-40 { opacity: 0.4; }
+    .opacity-50 { opacity: 0.5; }
+    .opacity-60 { opacity: 0.6; }
+    .opacity-80 { opacity: 0.8; }
+
+    .bg-white { background-color: #FFFFFF; }
+    .bg-blue-100 { background-color: #DBEAFE; }
+    .bg-blue-500 { background-color: #3B82F6; }
+    .bg-orange-100 { background-color: #FFEDD5; }
+    .bg-orange-500 { background-color: #F97316; }
+    .bg-red-100 { background-color: #FEE2E2; }
+    .bg-red-500 { background-color: #EF4444; }
+    .bg-emerald-100 { background-color: #D1FAE5; }
+    .bg-emerald-500 { background-color: #10B981; }
+    .bg-emerald-600 { background-color: #059669; }
+    .bg-slate-800 { background-color: #1E293B; }
+    .bg-indigo-600 { background-color: #4F46E5; }
+    .bg-neutral-50 { background-color: #FAFAFA; }
+    .bg-neutral-100 { background-color: #F5F5F5; }
+    .bg-neutral-200 { background-color: #E5E5E5; }
+
+    .bg-\[#001F3F\] { background-color: #001F3F; }
+    .bg-\[#FFD700\] { background-color: #FFD700; }
+    .bg-\[#F5F5DC\] { background-color: #F5F5DC; }
+    .bg-\[#FFD700\]\/5 { background-color: rgba(255, 215, 0, 0.05); }
+    .bg-\[#FFD700\]\/10 { background-color: rgba(255, 215, 0, 0.1); }
+    .bg-\[#FFD700\]\/20 { background-color: rgba(255, 215, 0, 0.2); }
+    .bg-\[#001F3F\]\/5 { background-color: rgba(0, 31, 63, 0.05); }
+
+    .text-white { color: #FFFFFF; }
+    .text-blue-600 { color: #2563EB; }
+    .text-orange-600 { color: #EA580C; }
+    .text-red-500 { color: #EF4444; }
+    .text-red-600 { color: #DC2626; }
+    .text-emerald-600 { color: #059669; }
+    .text-emerald-500 { color: #10B981; }
+    .text-slate-800 { color: #1E293B; }
+
+    .text-\[#001F3F\] { color: #001F3F; }
+    .text-\[#FFD700\] { color: #FFD700; }
+    .text-\[#F5F5DC\] { color: #F5F5DC; }
+    .text-\[#001F3F\]\/40 { color: rgba(0, 31, 63, 0.4); }
+    .text-\[#001F3F\]\/60 { color: rgba(0, 31, 63, 0.6); }
+    .text-\[#001F3F\]\/80 { color: rgba(0, 31, 63, 0.8); }
+    .text-\[#F5F5DC\]\/60 { color: rgba(245, 245, 220, 0.6); }
+    .text-\[#FFD700\]\/30 { color: rgba(255, 215, 0, 0.3); }
+
+    .border { border: 1px solid #E5E5E5; }
+    .border-2 { border: 2px solid #E5E5E5; }
+    .border-4 { border: 4px solid #E5E5E5; }
+    .border-b { border-bottom: 1px solid #E5E5E5; }
+    .border-l-4 { border-left: 4px solid; }
+
+    .border-white { border-color: #FFFFFF; }
+    .border-neutral-100 { border-color: #F5F5F5; }
+    .border-neutral-200 { border-color: #E5E5E5; }
+    .border-\[#001F3F\]\/5 { border-color: rgba(0, 31, 63, 0.05); }
+    .border-\[#001F3F\]\/10 { border-color: rgba(0, 31, 63, 0.1); }
+    .border-\[#001F3F\]\/20 { border-color: rgba(0, 31, 63, 0.2); }
+    .border-\[#FFD700\] { border-color: #FFD700; }
+    .border-\[#FFD700\]\/30 { border-color: rgba(255, 215, 0, 0.3); }
+    .border-\[#FFD700\]\/50 { border-color: rgba(255, 215, 0, 0.5); }
+    .border-dashed { border-style: dashed; }
+
+    .shadow-sm { box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); }
+    .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+    .shadow-xl { box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); }
+    .shadow-2xl { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); }
+    .shadow-\[#001F3F\]\/20 { box-shadow: 0 10px 15px -3px rgba(0, 31, 63, 0.2); }
+
+    .transition-all { transition: all 0.3s ease; }
+    .transition-colors { transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease; }
+    .transition-transform { transition: transform 0.3s ease; }
+
+    .hover\:scale-105:hover { transform: scale(1.05); }
+    .hover\:scale-110:hover { transform: scale(1.1); }
+    .hover\:scale-\[1\.02\]:hover { transform: scale(1.02); }
+    .hover\:bg-neutral-50:hover { background-color: #FAFAFA; }
+    .hover\:bg-\[#FFD700\]:hover { background-color: #FFD700; }
+    .hover\:bg-\[#FFD700\]\/20:hover { background-color: rgba(255, 215, 0, 0.2); }
+    .hover\:border-\[#001F3F\]\/20:hover { border-color: rgba(0, 31, 63, 0.2); }
+    .hover\:border-\[#FFD700\]\/40:hover { border-color: rgba(255, 215, 0, 0.4); }
+    .hover\:text-\[#001F3F\]:hover { color: #001F3F; }
+    .hover\:shadow-xl:hover { box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); }
+    .hover\:shadow-md:hover { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+    .hover\:-translate-y-1:hover { transform: translateY(-0.25rem); }
+
+    .disabled\:opacity-50:disabled { opacity: 0.5; }
+    .disabled\:scale-100:disabled { transform: scale(1); }
+
+    .focus\:border-\[#FFD700\]:focus { border-color: #FFD700; }
+    .focus\:outline-none:focus { outline: none; }
+
+    .overflow-hidden { overflow: hidden; }
+    .overflow-x-auto { overflow-x: auto; }
+
+    .shrink-0 { flex-shrink: 0; }
+
+    .line-clamp-1 {
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .line-clamp-3 {
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .aspect-square { aspect-ratio: 1 / 1; }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideInLeft {
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes slideInRight {
+      from { opacity: 0; transform: translateX(20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .animate-pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+    .animate-spin { animation: spin 1s linear infinite; }
+
+    .fade-in { animation: fadeIn 0.6s ease; }
+    .slide-in-left { animation: slideInLeft 0.6s ease; }
+    .slide-in-right { animation: slideInRight 0.6s ease; }
+    .slide-up { animation: slideUp 0.6s ease; }
+
+    /* ===== LAYOUT ===== */
+    header {
+      background: linear-gradient(135deg, #001F3F 0%, #0a3d6d 100%);
+      color: #F5F5DC;
+      padding: 1.5rem 0;
+      box-shadow: 0 2px 8px rgba(0, 31, 63, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    header .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: #FFD700;
+      text-decoration: none;
+    }
+
+    nav {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    nav a {
+      color: #F5F5DC;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.875rem;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: #FFD700;
+    }
+
+    nav a.active {
+      color: #FFD700;
+      border-bottom: 2px solid #FFD700;
+      padding-bottom: 0.5rem;
+    }
+
+    .nav-mobile {
+      display: none;
+    }
+
+    button {
+      border: none;
+      background: none;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    input, textarea, select {
+      font-family: inherit;
+    }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .hidden.sm\:hidden { display: none; }
+      .block.sm\:block { display: block; }
+
+      .grid-cols-2 { grid-template-columns: 1fr; }
+      .md\:grid-cols-2 { grid-template-columns: 1fr; }
+      .md\:grid-cols-3 { grid-template-columns: 1fr; }
+      .md\:grid-cols-4 { grid-template-columns: repeat(2, 1fr); }
+
+      .text-4xl { font-size: 2rem; }
+      .text-5xl { font-size: 2.25rem; }
+      .text-6xl { font-size: 2.5rem; }
+
+      nav {
+        gap: 1rem;
+      }
+
+      .md\:gap-2 { gap: 0.5rem; }
+      .md\:p-16 { padding: 1.5rem; }
+
+      header .container {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+
+    /* ===== ICONS (Inline SVG) ===== */
+    .icon {
+      display: inline-block;
+      width: 1.5rem;
+      height: 1.5rem;
+      vertical-align: middle;
+    }
+
+    .icon.sm { width: 1rem; height: 1rem; }
+    .icon.lg { width: 2rem; height: 2rem; }
+    .icon.xl { width: 2.5rem; height: 2.5rem; }
+
+    /* ===== PAGES ===== */
+    .page {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 3rem 1rem;
+      min-height: calc(100vh - 200px);
+    }
+
+    /* ===== COMPONENTS ===== */
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 2rem;
+      border-radius: 1.5rem;
+      max-width: 500px;
+      width: 90%;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header>
+    <div class="container">
+      <a href="#" class="logo" onclick="goToPage('home'); return false;">Solution Hub</a>
+      <nav>
+        <a href="#" onclick="goToPage('home'); return false;" class="nav-link active" data-page="home">Home</a>
+        <a href="#" onclick="goToPage('report'); return false;" class="nav-link" data-page="report">Report</a>
+        <a href="#" onclick="goToPage('task'); return false;" class="nav-link" data-page="task">Track</a>
+        <a href="#" onclick="goToPage('admin'); return false;" class="nav-link" data-page="admin">Admin</a>
+        <a href="#" onclick="goToPage('about'); return false;" class="nav-link" data-page="about">About</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main>
+    <!-- HOME PAGE -->
+    <div id="home" class="page active space-y-8">
+      <!-- Hero Section -->
+      <section class="rounded-3xl bg-[#001F3F] text-[#F5F5DC] p-8 md:p-16 space-y-8">
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+          <div class="space-y-8 slide-in-left">
+            <div class="inline-block px-4 py-1 rounded-full border border-[#FFD700]/30 text-xs uppercase font-bold tracking-widest text-[#FFD700]">
+              Yaounde Municipality Service
+            </div>
+            <h1 class="text-4xl md:text-6xl font-black leading-tight">
+              Bridge the gap between <span class="text-[#FFD700]">citizens</span> and <span class="text-[#FFD700]">administration</span>.
+            </h1>
+            <p class="text-lg opacity-80 max-w-lg leading-relaxed">
+              Every report is geo-tagged, categorized in Solution Hub, and routed with guaranteed escalation paths.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4">
+              <button onclick="goToPage('report'); return false;" class="bg-[#FFD700] text-[#001F3F] px-8 py-4 rounded-xl font-bold flex items-center justify-center gap-3 hover:scale-105 transition-transform shadow-xl">
+                📢 Report an Issue
+              </button>
+              <button onclick="goToPage('task'); return false;" class="bg-[#F5F5DC]/10 border border-[#F5F5DC]/30 px-8 py-4 rounded-xl font-bold flex items-center justify-center gap-3 hover:bg-[#F5F5DC]/20 transition-all">
+                📋 Track Tasks
+              </button>
+            </div>
+          </div>
+          <div class="relative h-80 rounded-3xl overflow-hidden border border-[#FFD700]/10 shadow-2xl bg-[#FFD700]/5 flex items-center justify-center p-8 slide-in-right">
+            <div class="text-center space-y-4">
+              <div class="w-16 h-16 bg-[#FFD700]/20 rounded-full flex items-center justify-center mx-auto animate-pulse">
+                🌍
+              </div>
+              <p class="text-[#F5F5DC]/60 font-mono text-xs uppercase tracking-widest leading-relaxed">
+                Platform Cover Image<br/>
+                (Community Infrastructure Visual)
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- About Highlight -->
+      <section class="bg-white rounded-3xl p-12 border border-[#001F3F]/5 shadow-sm space-y-8">
+        <div class="max-w-3xl mx-auto text-center space-y-8">
+          <div class="inline-flex items-center gap-2 text-[#001F3F]/60 font-bold uppercase text-xs tracking-widest">
+            <span class="w-8 h-[2px] bg-[#FFD700]"></span>
+            About Section
+            <span class="w-8 h-[2px] bg-[#FFD700]"></span>
+          </div>
+          <p class="text-3xl md:text-4xl font-serif italic text-[#001F3F] leading-tight">
+            "A community-centered governance engine designed to enforce administrative accountability through smart routing and forced escalation."
+          </p>
+        </div>
+      </section>
+
+      <!-- Stats -->
+      <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white p-8 rounded-2xl border border-[#001F3F]/5 shadow-sm text-center space-y-2 hover:border-[#FFD700]/50 transition-colors">
+          <p class="text-xs uppercase font-bold tracking-widest text-[#001F3F]/40">Total Reports</p>
+          <p class="text-5xl font-black text-[#001F3F] hover:scale-110 transition-transform">2,458</p>
+        </div>
+        <div class="bg-white p-8 rounded-2xl border border-[#001F3F]/5 shadow-sm text-center space-y-2 hover:border-[#FFD700]/50 transition-colors">
+          <p class="text-xs uppercase font-bold tracking-widest text-[#001F3F]/40">Resolved Cases</p>
+          <p class="text-5xl font-black text-[#001F3F] hover:scale-110 transition-transform">1,892</p>
+        </div>
+        <div class="bg-white p-8 rounded-2xl border border-[#001F3F]/5 shadow-sm text-center space-y-2 hover:border-[#FFD700]/50 transition-colors">
+          <p class="text-xs uppercase font-bold tracking-widest text-[#001F3F]/40">Active Authorities</p>
+          <p class="text-5xl font-black text-[#001F3F] hover:scale-110 transition-transform">24</p>
+        </div>
+      </section>
+
+      <!-- Solution Center -->
+      <section class="space-y-8">
+        <h2 class="text-2xl font-bold border-l-4 border-[#FFD700] pl-4 text-[#001F3F]">Solution Center</h2>
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          <button onclick="goToPage('report'); return false;" class="bg-white p-6 rounded-2xl flex flex-col items-center justify-center gap-4 text-center hover:shadow-xl transition-all border border-[#001F3F]/5 group hover:-translate-y-1">
+            <div class="w-12 h-12 rounded-xl flex items-center justify-center text-white shadow-lg bg-orange-500 group-hover:scale-110 transition-transform">⚡</div>
+            <span class="text-sm font-bold text-[#001F3F]">Infrastructure</span>
+          </button>
+          <button onclick="goToPage('report'); return false;" class="bg-white p-6 rounded-2xl flex flex-col items-center justify-center gap-4 text-center hover:shadow-xl transition-all border border-[#001F3F]/5 group hover:-translate-y-1">
+            <div class="w-12 h-12 rounded-xl flex items-center justify-center text-white shadow-lg bg-blue-500 group-hover:scale-110 transition-transform">💧</div>
+            <span class="text-sm font-bold text-[#001F3F]">Water</span>
+          </button>
+          <button onclick="goToPage('report'); return false;" class="bg-white p-6 rounded-2xl flex flex-col items-center justify-center gap-4 text-center hover:shadow-xl transition-all border border-[#001F3F]/5 group hover:-translate-y-1">
+            <div class="w-12 h-12 rounded-xl flex items-center justify-center text-white shadow-lg bg-red-500 group-hover:scale-110 transition-transform">❤️</div>
+            <span class="text-sm font-bold text-[#001F3F]">Health</span>
+          </button>
+          <button onclick="goToPage('report'); return false;" class="bg-white p-6 rounded-2xl flex flex-col items-center justify-center gap-4 text-center hover:shadow-xl transition-all border border-[#001F3F]/5 group hover:-translate-y-1">
+            <div class="w-12 h-12 rounded-xl flex items-center justify-center text-white shadow-lg bg-slate-800 group-hover:scale-110 transition-transform">🛡️</div>
+            <span class="text-sm font-bold text-[#001F3F]">Security</span>
+          </button>
+          <button onclick="goToPage('report'); return false;" class="bg-white p-6 rounded-2xl flex flex-col items-center justify-center gap-4 text-center hover:shadow-xl transition-all border border-[#001F3F]/5 group hover:-translate-y-1">
+            <div class="w-12 h-12 rounded-xl flex items-center justify-center text-white shadow-lg bg-indigo-600 group-hover:scale-110 transition-transform">🏠</div>
+            <span class="text-sm font-bold text-[#001F3F]">Public Serv.</span>
+          </button>
+          <button onclick="goToPage('report'); return false;" class="bg-white p-6 rounded-2xl flex flex-col items-center justify-center gap-4 text-center hover:shadow-xl transition-all border border-[#001F3F]/5 group hover:-translate-y-1">
+            <div class="w-12 h-12 rounded-xl flex items-center justify-center text-white shadow-lg bg-emerald-600 group-hover:scale-110 transition-transform">🍃</div>
+            <span class="text-sm font-bold text-[#001F3F]">Environment</span>
+          </button>
+        </div>
+      </section>
+    </div>
+
+    <!-- REPORT PAGE -->
+    <div id="report" class="page">
+      <div class="max-w-4xl mx-auto py-8">
+        <!-- Progress Header -->
+        <div class="mb-12 flex justify-between items-center px-4">
+          <div id="progress-steps" class="flex justify-between w-full gap-4"></div>
+        </div>
+
+        <!-- Steps Container -->
+        <div id="report-steps-container"></div>
+      </div>
+    </div>
+
+    <!-- TASK PAGE -->
+    <div id="task" class="page">
+      <div class="space-y-8">
+        <header class="space-y-2">
+          <h1 class="text-4xl font-black text-[#001F3F]">Task Tracking</h1>
+          <p class="text-[#001F3F]/60">Monitor the progress of your reports and administrative actions.</p>
+        </header>
+
+        <!-- Tabs -->
+        <div class="flex gap-4 border-b border-[#001F3F]/10">
+          <button onclick="switchTab('my')" class="task-tab pb-4 px-2 font-bold text-sm transition-all text-[#001F3F] active">
+            My Reports
+          </button>
+          <button onclick="switchTab('track')" class="task-tab pb-4 px-2 font-bold text-sm transition-all text-[#001F3F]/40">
+            Track by ID
+          </button>
+        </div>
+
+        <div class="min-h-96">
+          <div id="task-my" class="task-content active space-y-4">
+            <div class="bg-white p-12 rounded-3xl border border-dashed border-[#001F3F]/20 text-center space-y-6">
+              <div class="w-16 h-16 bg-[#FFD700]/20 rounded-full flex items-center justify-center mx-auto text-[#001F3F] text-3xl">
+                🔍
+              </div>
+              <div class="space-y-2">
+                <h3 class="text-xl font-bold text-[#001F3F]">No Reports Filed Yet</h3>
+                <p class="text-sm text-[#001F3F]/60 max-w-xs mx-auto">File a report to see it here and track its progress through our system.</p>
+              </div>
+              <button onclick="goToPage('report')" class="bg-[#001F3F] text-[#FFD700] px-8 py-3 rounded-xl font-bold">File Your First Report</button>
+            </div>
+          </div>
+
+          <div id="task-track" class="task-content hidden max-w-xl mx-auto space-y-8 py-10">
+            <div class="relative">
+              <input id="tracking-id-input" placeholder="Enter Tracking ID (e.g SH-AFG23B)" class="w-full p-6 pl-16 rounded-2xl border-2 border-neutral-100 outline-none focus:border-[#FFD700] transition-colors font-mono font-bold text-xl uppercase" />
+              <span class="absolute left-6 top-1/2 -translate-y-1/2 text-[#001F3F]/20 text-2xl">🏷️</span>
+              <button onclick="searchTracking()" class="absolute right-4 top-1/2 -translate-y-1/2 bg-[#001F3F] text-[#FFD700] p-3 rounded-xl hover:scale-105 transition-transform">
+                ➜
+              </button>
+            </div>
+
+            <div class="bg-[#001F3F]/5 p-8 rounded-3xl border border-dashed border-[#001F3F]/10 text-center space-y-2">
+              <p class="text-sm text-[#001F3F]/40 italic">You can find your Tracking ID in the confirmation email or SMS sent after submission.</p>
+            </div>
+
+            <div id="tracking-result" class="hidden bg-white p-8 rounded-3xl border border-[#FFD700]/30 shadow-xl space-y-4">
+              <!-- Will be populated by JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADMIN PAGE -->
+    <div id="admin" class="page space-y-8">
+      <header class="flex justify-between items-end">
+        <div class="space-y-2">
+          <h1 class="text-4xl font-black text-[#001F3F]">Control Center</h1>
+          <p class="text-[#001F3F]/60">Administrative dashboard for authority and report management.</p>
+        </div>
+        <div class="flex gap-4">
+          <div class="h-12 w-[1px] bg-[#001F3F]/10 hidden sm:block"></div>
+          <div class="text-right">
+            <p class="text-xs uppercase font-bold text-[#001F3F]/40 tracking-widest">System Health</p>
+            <p class="text-emerald-500 font-bold text-xs flex items-center gap-1">
+              <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Operational
+            </p>
+          </div>
+        </div>
+      </header>
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div class="bg-white p-6 rounded-2xl border border-[#001F3F]/5 shadow-sm">
+          <div class="flex justify-between items-start mb-4">
+            <span class="text-2xl">⚠️</span>
+            <span class="text-xs bg-neutral-100 px-2 py-1 rounded font-bold uppercase tracking-widest">+12%</span>
+          </div>
+          <p class="text-3xl font-black text-[#001F3F]">142</p>
+          <p class="text-xs uppercase font-bold tracking-widest text-[#001F3F]/40">Pending Reports</p>
+        </div>
+        <div class="bg-white p-6 rounded-2xl border border-[#001F3F]/5 shadow-sm">
+          <div class="flex justify-between items-start mb-4">
+            <span class="text-2xl">⚙️</span>
+            <span class="text-xs bg-neutral-100 px-2 py-1 rounded font-bold uppercase tracking-widest">+8%</span>
+          </div>
+          <p class="text-3xl font-black text-[#001F3F]">56</p>
+          <p class="text-xs uppercase font-bold tracking-widest text-[#001F3F]/40">In Execution</p>
+        </div>
+        <div class="bg-white p-6 rounded-2xl border border-[#001F3F]/5 shadow-sm">
+          <div class="flex justify-between items-start mb-4">
+            <span class="text-2xl">✅</span>
+            <span class="text-xs bg-neutral-100 px-2 py-1 rounded font-bold uppercase tracking-widest">+15%</span>
+          </div>
+          <p class="text-3xl font-black text-[#001F3F]">89</p>
+          <p class="text-xs uppercase font-bold tracking-widest text-[#001F3F]/40">Resolved Weekly</p>
+        </div>
+        <div class="bg-white p-6 rounded-2xl border border-[#001F3F]/5 shadow-sm">
+          <div class="flex justify-between items-start mb-4">
+            <span class="text-2xl">📈</span>
+            <span class="text-xs bg-neutral-100 px-2 py-1 rounded font-bold uppercase tracking-widest">-5%</span>
+          </div>
+          <p class="text-3xl font-black text-[#001F3F]">12</p>
+          <p class="text-xs uppercase font-bold tracking-widest text-[#001F3F]/40">Escalated Tasks</p>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="md:col-span-2 space-y-6">
+          <div class="bg-white rounded-3xl border border-[#001F3F]/5 overflow-hidden shadow-sm">
+            <div class="p-6 border-b border-[#001F3F]/5 flex justify-between items-center">
+              <h3 class="font-bold text-[#001F3F]">Live Escalation Queue</h3>
+              <button class="text-xs font-bold text-[#001F3F] underline">View All</button>
+            </div>
+            <div class="divide-y divide-[#001F3F]/5">
+              <div class="p-4 flex items-center justify-between hover:bg-neutral-50 transition-colors cursor-pointer">
+                <div class="flex gap-4 items-center">
+                  <div class="w-10 h-10 rounded-full bg-[#001F3F]/5 flex items-center justify-center text-[#001F3F] font-bold text-xs">01</div>
+                  <div>
+                    <h4 class="font-bold text-sm text-[#001F3F]">Yaoundé I — Infrastructure</h4>
+                    <p class="text-xs text-red-500 font-bold uppercase tracking-widest italic">Delay: 74h</p>
+                  </div>
+                </div>
+                <span class="text-xs px-2 py-1 rounded font-black uppercase tracking-widest bg-orange-100 text-orange-600">High</span>
+              </div>
+              <div class="p-4 flex items-center justify-between hover:bg-neutral-50 transition-colors cursor-pointer">
+                <div class="flex gap-4 items-center">
+                  <div class="w-10 h-10 rounded-full bg-[#001F3F]/5 flex items-center justify-center text-[#001F3F] font-bold text-xs">02</div>
+                  <div>
+                    <h4 class="font-bold text-sm text-[#001F3F]">Yaoundé IV — Water</h4>
+                    <p class="text-xs text-red-500 font-bold uppercase tracking-widest italic">Delay: 89h</p>
+                  </div>
+                </div>
+                <span class="text-xs px-2 py-1 rounded font-black uppercase tracking-widest bg-red-100 text-red-600">Critical</span>
+              </div>
+              <div class="p-4 flex items-center justify-between hover:bg-neutral-50 transition-colors cursor-pointer">
+                <div class="flex gap-4 items-center">
+                  <div class="w-10 h-10 rounded-full bg-[#001F3F]/5 flex items-center justify-center text-[#001F3F] font-bold text-xs">03</div>
+                  <div>
+                    <h4 class="font-bold text-sm text-[#001F3F]">Yaoundé VI — Security</h4>
+                    <p class="text-xs text-red-500 font-bold uppercase tracking-widest italic">Delay: 72h</p>
+                  </div>
+                </div>
+                <span class="text-xs px-2 py-1 rounded font-black uppercase tracking-widest bg-blue-100 text-blue-600">Medium</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-6">
+          <div class="bg-[#001F3F] text-[#F5F5DC] p-8 rounded-3xl space-y-6 relative overflow-hidden">
+            <div class="relative z-10 space-y-4">
+              <h3 class="text-xl font-bold">Admin Actions</h3>
+              <div class="space-y-2">
+                <button class="w-full text-left p-4 rounded-xl bg-[#F5F5DC]/10 hover:bg-[#FFD700] hover:text-[#001F3F] transition-all text-sm font-bold flex items-center justify-between">
+                  Manage Authorities →
+                </button>
+                <button class="w-full text-left p-4 rounded-xl bg-[#F5F5DC]/10 hover:bg-[#FFD700] hover:text-[#001F3F] transition-all text-sm font-bold flex items-center justify-between">
+                  Review Categories →
+                </button>
+                <button class="w-full text-left p-4 rounded-xl bg-[#F5F5DC]/10 hover:bg-[#FFD700] hover:text-[#001F3F] transition-all text-sm font-bold flex items-center justify-between">
+                  System Logs →
+                </button>
+              </div>
+            </div>
+            <span class="absolute -bottom-8 -right-8 text-[#FFD700]/10 text-9xl">⚙️</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ABOUT PAGE -->
+    <div id="about" class="page space-y-20 pb-20">
+      <section class="text-center max-w-3xl mx-auto space-y-6">
+        <h1 class="text-5xl font-black text-[#001F3F]">Enforcing <span class="text-[#FFD700]">Accountability</span></h1>
+        <p class="text-xl text-[#001F3F]/60 leading-relaxed">
+          Solution Hub is Yaoundé's primary digital infrastructure for bridging the communication gap between citizens and local administrative councils.
+        </p>
+      </section>
+
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div class="space-y-8">
+          <div class="bg-white p-8 rounded-3xl border border-[#001F3F]/5 shadow-sm space-y-4">
+            <h3 class="text-2xl font-bold text-[#001F3F] flex items-center gap-3">
+              🛡️ Smart Routing
+            </h3>
+            <p class="text-[#001F3F]/80">
+              Our proprietary "Solution Hub Easy Fix" engine analyzes report categories and locations to instantly dispatch issues to the relevant authorities (e.g., Douala III Council, Yaoundé VII Public Works).
+            </p>
+          </div>
+          <div class="bg-white p-8 rounded-3xl border border-[#001F3F]/5 shadow-sm space-y-4">
+            <h3 class="text-2xl font-bold text-[#001F3F] flex items-center gap-3">
+              ⏱️ Forced Escalation
+            </h3>
+            <p class="text-[#001F3F]/80">
+              Reports that remain unanswered for more than 72 hours are automatically escalated to higher-level provincial authorities, ensuring that no community problem is left ignored.
+            </p>
+          </div>
+        </div>
+        <div class="relative rounded-3xl overflow-hidden aspect-square bg-[#001F3F]/5 border border-dashed border-[#001F3F]/20 flex items-center justify-center p-12">
+          <div class="text-center space-y-4">
+            <span class="text-5xl block">📊</span>
+            <p class="font-mono text-xs uppercase tracking-widest text-[#001F3F]/40 leading-relaxed">
+              Infrastructure Analytics Visual<br/>
+              (Mapping & Data Flow)
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-[#001F3F] text-[#F5F5DC] py-8 mt-20">
+    <div class="container text-center space-y-4">
+      <p class="font-bold">© 2024 Solution Hub - Yaounde Municipality Service</p>
+      <p class="text-sm opacity-60">Building better governance through technology and community engagement.</p>
+    </div>
+  </footer>
+
+  <script>
+    // ===== APPLICATION STATE =====
+    const appState = {
+      currentPage: 'home',
+      currentStep: 'category',
+      selectedCategory: null,
+      locations: {
+        region: '',
+        city: '',
+        area: ''
+      },
+      locationOptions: {
+        regions: [],
+        cities: [],
+        areas: []
+      },
+      details: '',
+      isAnonymous: false,
+      reporterInfo: {
+        name: '',
+        phone: '',
+        email: ''
+      },
+      reports: [],
+      trackingId: null
+    };
+
+    // ===== MOCK DATA =====
+    const mockLocations = {
+      regions: [
+        { id: 'centre', name: 'Centre' }
+      ],
+      cities: {
+        centre: [
+          { id: 'yaounde', name: 'Yaoundé' }
+        ]
+      },
+      areas: {
+        yaounde: [
+          { id: 'y1', name: 'Yaoundé I' },
+          { id: 'y2', name: 'Yaoundé II' },
+          { id: 'y3', name: 'Yaoundé III' },
+          { id: 'y4', name: 'Yaoundé IV' },
+          { id: 'y5', name: 'Yaoundé V' },
+          { id: 'y6', name: 'Yaoundé VI' },
+          { id: 'y7', name: 'Yaoundé VII' }
+        ]
+      }
+    };
+
+    const CATEGORIES = [
+      { id: 'infra', label: 'Infrastructure', emoji: '⚡', desc: 'Roads, Bridges, Street Lights' },
+      { id: 'water', label: 'Water & Sanitation', emoji: '💧', desc: 'Leaks, Blocked Drains, Waste' },
+      { id: 'health', label: 'Health', emoji: '❤️', desc: 'Hospital services, Outbreaks' },
+      { id: 'security', label: 'Security', emoji: '🛡️', desc: 'Theft, Safe areas, Vandalism' },
+      { id: 'public', label: 'Public Services', emoji: '🏠', desc: 'Certificates, Markets, Admin' },
+      { id: 'env', label: 'Environment', emoji: '🍃', desc: 'Pollution, Illegal logging' },
+      { id: 'other', label: 'Other', emoji: '➕', desc: 'Issues not listed above' }
+    ];
+
+    // ===== PAGE NAVIGATION =====
+    function goToPage(pageName) {
+      // Hide all pages
+      document.querySelectorAll('.page').forEach(page => {
+        page.classList.remove('active');
+      });
+
+      // Show selected page
+      document.getElementById(pageName).classList.add('active');
+      appState.currentPage = pageName;
+
+      // Update nav
+      document.querySelectorAll('.nav-link').forEach(link => {
+        link.classList.remove('active');
+      });
+      document.querySelector(`[data-page="${pageName}"]`).classList.add('active');
+
+      // Initialize page-specific content
+      if (pageName === 'report') {
+        initReportPage();
+      } else if (pageName === 'task') {
+        initTaskPage();
+      }
+
+      window.scrollTo(0, 0);
+    }
+
+    // ===== REPORT PAGE =====
+    function initReportPage() {
+      // Initialize locations
+      appState.locationOptions.regions = mockLocations.regions;
+
+      // Render progress steps
+      const stepsContainer = document.getElementById('progress-steps');
+      stepsContainer.innerHTML = '';
+      const steps = ['category', 'location', 'details', 'confirm'];
+      steps.forEach((step, i) => {
+        const div = document.createElement('div');
+        div.className = 'flex flex-col items-center gap-2';
+        const isActive = appState.currentStep === step;
+        const isPassed = steps.indexOf(appState.currentStep) > i;
+        div.innerHTML = `
+          <div class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all ${
+            isActive ? 'bg-[#001F3F] text-[#FFD700] ring-4 ring-[#FFD700]/20' : 
+            isPassed ? 'bg-[#FFD700] text-[#001F3F]' : 'bg-neutral-200 text-neutral-400'
+          }">
+            ${i + 1}
+          </div>
+          <span class="text-xs uppercase font-bold tracking-tight opacity-60 hidden sm:block">${step}</span>
+        `;
+        stepsContainer.appendChild(div);
+      });
+
+      renderReportStep();
+    }
+
+    function renderReportStep() {
+      const container = document.getElementById('report-steps-container');
+      container.innerHTML = '';
+
+      if (appState.currentStep === 'category') {
+        renderCategoryStep(container);
+      } else if (appState.currentStep === 'location') {
+        renderLocationStep(container);
+      } else if (appState.currentStep === 'details') {
+        renderDetailsStep(container);
+      } else if (appState.currentStep === 'confirm') {
+        renderConfirmStep(container);
+      }
+    }
+
+    function renderCategoryStep(container) {
+      const step = document.createElement('div');
+      step.className = 'space-y-6 slide-in-right';
+      step.innerHTML = `
+        <div class="text-center space-y-2">
+          <h1 class="text-3xl font-black text-[#001F3F]">What issue are you reporting?</h1>
+          <p class="text-[#001F3F]/60">Select the category that best describes the problem.</p>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="category-grid"></div>
+      `;
+      container.appendChild(step);
+
+      const grid = container.querySelector('#category-grid');
+      CATEGORIES.forEach(cat => {
+        const btn = document.createElement('button');
+        btn.className = `flex flex-col items-start p-6 rounded-2xl border-2 transition-all text-left group ${
+          appState.selectedCategory === cat.id 
+            ? 'border-[#FFD700] bg-[#FFD700]/5 shadow-lg' 
+            : 'border-neutral-100 bg-white hover:border-[#001F3F]/20'
+        }`;
+        btn.innerHTML = `
+          <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-4 transition-transform group-hover:scale-110 text-2xl ${
+            appState.selectedCategory === cat.id ? 'bg-[#001F3F] text-[#FFD700]' : 'bg-neutral-100 text-[#001F3F]'
+          }">
+            ${cat.emoji}
+          </div>
+          <h3 class="font-bold text-[#001F3F]">${cat.label}</h3>
+          <p class="text-xs text-[#001F3F]/60 mt-1">${cat.desc}</p>
+        `;
+        btn.onclick = () => {
+          appState.selectedCategory = cat.id;
+          appState.currentStep = 'location';
+          renderReportStep();
+        };
+        grid.appendChild(btn);
+      });
+    }
+
+    function renderLocationStep(container) {
+      const step = document.createElement('div');
+      step.className = 'space-y-8 max-w-lg mx-auto slide-in-right';
+      step.innerHTML = `
+        <div class="text-center space-y-2">
+          <h1 class="text-3xl font-black text-[#001F3F]">Where is it happening?</h1>
+          <p class="text-[#001F3F]/60">Help us identify the exact administrative area.</p>
+        </div>
+        
+        <div class="space-y-4">
+          <div class="space-y-2">
+            <label class="text-xs uppercase font-bold tracking-widest text-[#001F3F]/40 ml-2">Region</label>
+            <select id="region-select" class="w-full p-4 rounded-xl border border-neutral-200 focus:border-[#FFD700] outline-none transition-colors">
+              <option value="">Select Region</option>
+            </select>
+          </div>
+
+          <div class="space-y-2">
+            <label class="text-xs uppercase font-bold tracking-widest text-[#001F3F]/40 ml-2">City</label>
+            <select id="city-select" class="w-full p-4 rounded-xl border border-neutral-200 focus:border-[#FFD700] outline-none transition-colors disabled:opacity-50" disabled>
+              <option value="">Select City</option>
+            </select>
+          </div>
+
+          <div class="space-y-2">
+            <label class="text-xs uppercase font-bold tracking-widest text-[#001F3F]/40 ml-2">Area / Quarter</label>
+            <select id="area-select" class="w-full p-4 rounded-xl border border-neutral-200 focus:border-[#FFD700] outline-none transition-colors disabled:opacity-50" disabled>
+              <option value="">Select Area</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="flex gap-4">
+          <button onclick="app.goToStep('category')" class="flex-1 p-4 rounded-xl font-bold border border-neutral-200 hover:bg-neutral-50 transition-colors flex items-center justify-center gap-2">
+            ← Back
+          </button>
+          <button onclick="app.goToStep('details')" class="flex-[2] p-4 rounded-xl font-bold bg-[#001F3F] text-[#FFD700] hover:scale-[1.02] transition-transform disabled:opacity-50 disabled:scale-100 flex items-center justify-center gap-2" id="location-next">
+            Next Step →
+          </button>
+        </div>
+      `;
+      container.appendChild(step);
+
+      // Populate regions
+      const regionSelect = container.querySelector('#region-select');
+      const citySelect = container.querySelector('#city-select');
+      const areaSelect = container.querySelector('#area-select');
+
+      appState.locationOptions.regions.forEach(region => {
+        const opt = document.createElement('option');
+        opt.value = region.id;
+        opt.textContent = region.name;
+        regionSelect.appendChild(opt);
+      });
+
+      regionSelect.addEventListener('change', (e) => {
+        appState.locations.region = e.target.value;
+        appState.locations.city = '';
+        appState.locations.area = '';
+        citySelect.innerHTML = '<option value="">Select City</option>';
+        areaSelect.innerHTML = '<option value="">Select Area</option>';
+
+        if (e.target.value) {
+          const cities = mockLocations.cities[e.target.value] || [];
+          cities.forEach(city => {
+            const opt = document.createElement('option');
+            opt.value = city.id;
+            opt.textContent = city.name;
+            citySelect.appendChild(opt);
+          });
+          citySelect.disabled = false;
+        } else {
+          citySelect.disabled = true;
+        }
+        updateLocationNextBtn();
+      });
+
+      citySelect.addEventListener('change', (e) => {
+        appState.locations.city = e.target.value;
+        appState.locations.area = '';
+        areaSelect.innerHTML = '<option value="">Select Area</option>';
+
+        if (e.target.value) {
+          const areas = mockLocations.areas[appState.locations.region] || [];
+          areas.forEach(area => {
+            const opt = document.createElement('option');
+            opt.value = area.id;
+            opt.textContent = area.name;
+            areaSelect.appendChild(opt);
+          });
+          areaSelect.disabled = false;
+        } else {
+          areaSelect.disabled = true;
+        }
+        updateLocationNextBtn();
+      });
+
+      areaSelect.addEventListener('change', (e) => {
+        appState.locations.area = e.target.value;
+        updateLocationNextBtn();
+      });
+
+      function updateLocationNextBtn() {
+        const btn = container.querySelector('#location-next');
+        btn.disabled = !appState.locations.area;
+      }
+    }
+
+    function renderDetailsStep(container) {
+      const step = document.createElement('div');
+      step.className = 'space-y-8 max-w-2xl mx-auto slide-in-right';
+      step.innerHTML = `
+        <div class="text-center space-y-2">
+          <h1 class="text-3xl font-black text-[#001F3F]">Provide more details</h1>
+          <p class="text-[#001F3F]/60">Describe the issue and add evidence if possible.</p>
+        </div>
+
+        <div class="space-y-6">
+          <textarea id="details-textarea" placeholder="What exactly is the problem? Be as specific as possible..." class="w-full h-40 p-6 rounded-2xl border border-neutral-200 focus:border-[#FFD700] outline-none transition-colors resize-none"></textarea>
+
+          <div class="grid grid-cols-2 gap-4">
+            <button class="p-4 rounded-xl border-2 border-dashed border-neutral-200 hover:border-[#FFD700]/40 flex flex-col items-center gap-2 transition-colors">
+              <span class="text-2xl">📷</span>
+              <span class="text-xs font-bold opacity-60">Add Photos</span>
+            </button>
+            <button class="p-4 rounded-xl border-2 border-dashed border-neutral-200 hover:border-[#FFD700]/40 flex flex-col items-center gap-2 transition-colors">
+              <span class="text-2xl">🎤</span>
+              <span class="text-xs font-bold opacity-60">Voice Upload</span>
+            </button>
+          </div>
+
+          <div class="bg-white p-6 rounded-2xl border border-[#001F3F]/5 shadow-sm space-y-6">
+            <div class="flex items-center justify-between">
+              <div class="space-y-1">
+                <h3 class="font-bold text-[#001F3F]">Submit Anonymously?</h3>
+                <p class="text-xs text-[#001F3F]/60">Your identity will not be shared with the public or administration.</p>
+              </div>
+              <button id="anonymous-toggle" class="w-14 h-8 rounded-full transition-colors relative flex items-center bg-neutral-200">
+                <div class="absolute w-6 h-6 rounded-full bg-white shadow-sm transition-transform translate-x-1"></div>
+              </button>
+            </div>
+
+            <div id="reporter-info" class="hidden space-y-4 pt-4 border-t border-neutral-100">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <input id="reporter-name" placeholder="Full Name" class="w-full p-3 rounded-xl border border-neutral-200 focus:border-[#FFD700] outline-none transition-colors text-sm" />
+                <input id="reporter-phone" placeholder="Phone Number" class="w-full p-3 rounded-xl border border-neutral-200 focus:border-[#FFD700] outline-none transition-colors text-sm" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex gap-4">
+          <button onclick="app.goToStep('location')" class="flex-1 p-4 rounded-xl font-bold border border-neutral-200 hover:bg-neutral-50 transition-colors flex items-center justify-center gap-2">
+            ← Back
+          </button>
+          <button onclick="app.goToStep('confirm')" class="flex-[2] p-4 rounded-xl font-bold bg-[#001F3F] text-[#FFD700] hover:scale-[1.02] transition-transform disabled:opacity-50 disabled:scale-100 flex items-center justify-center gap-2 shadow-lg shadow-[#001F3F]/20" id="details-next">
+            Review Report →
+          </button>
+        </div>
+      `;
+      container.appendChild(step);
+
+      const textarea = container.querySelector('#details-textarea');
+      const toggle = container.querySelector('#anonymous-toggle');
+      const reporterInfo = container.querySelector('#reporter-info');
+      const nameInput = container.querySelector('#reporter-name');
+      const phoneInput = container.querySelector('#reporter-phone');
+      const nextBtn = container.querySelector('#details-next');
+
+      textarea.value = appState.details;
+      textarea.addEventListener('change', (e) => {
+        appState.details = e.target.value;
+        updateDetailsNextBtn();
+      });
+      textarea.addEventListener('input', (e) => {
+        appState.details = e.target.value;
+        updateDetailsNextBtn();
+      });
+
+      toggle.onclick = () => {
+        appState.isAnonymous = !appState.isAnonymous;
+        toggle.style.backgroundColor = appState.isAnonymous ? '#FFD700' : '#e5e5e5';
+        toggle.querySelector('div').style.transform = appState.isAnonymous ? 'translateX(28px)' : 'translateX(4px)';
+        reporterInfo.classList.toggle('hidden');
+        updateDetailsNextBtn();
+      };
+
+      nameInput.value = appState.reporterInfo.name;
+      phoneInput.value = appState.reporterInfo.phone;
+
+      nameInput.addEventListener('input', (e) => {
+        appState.reporterInfo.name = e.target.value;
+        updateDetailsNextBtn();
+      });
+
+      phoneInput.addEventListener('input', (e) => {
+        appState.reporterInfo.phone = e.target.value;
+        updateDetailsNextBtn();
+      });
+
+      function updateDetailsNextBtn() {
+        const valid = appState.details && 
+          (appState.isAnonymous || (appState.reporterInfo.name && appState.reporterInfo.phone));
+        nextBtn.disabled = !valid;
+      }
+      updateDetailsNextBtn();
+    }
+
+    function renderConfirmStep(container) {
+      const step = document.createElement('div');
+      const category = CATEGORIES.find(c => c.id === appState.selectedCategory);
+
+      step.className = 'max-w-md mx-auto bg-white rounded-3xl overflow-hidden shadow-2xl border border-[#001F3F]/5 slide-up';
+      step.innerHTML = `
+        <div class="p-8 bg-[#001F3F] text-[#F5F5DC] text-center">
+          <div class="w-16 h-16 bg-[#FFD700]/20 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">
+            ⚠️
+          </div>
+          <h2 class="text-xl font-black">Confirm Submission?</h2>
+          <p class="text-sm opacity-60 mt-1">Please review your data before sending it to the administration.</p>
+        </div>
+        
+        <div class="p-8 space-y-6">
+          <div class="grid grid-cols-2 gap-4 text-sm">
+            <div>
+              <label class="text-xs uppercase font-bold tracking-widest opacity-40">Category</label>
+              <p class="font-bold text-[#001F3F]">${category?.label || 'Unknown'}</p>
+            </div>
+            <div>
+              <label class="text-xs uppercase font-bold tracking-widest opacity-40">Privacy</label>
+              <p class="font-bold text-[#001F3F]">${appState.isAnonymous ? 'Anonymous' : 'Identified'}</p>
+            </div>
+          </div>
+          
+          <div>
+            <label class="text-xs uppercase font-bold tracking-widest opacity-40">Location</label>
+            <p class="font-medium text-[#001F3F]">${
+              mockLocations.areas.yaounde.find(a => a.id === appState.locations.area)?.name || 'Unknown'
+            }, ${
+              mockLocations.cities.centre.find(c => c.id === appState.locations.city)?.name || 'Unknown'
+            }</p>
+          </div>
+
+          <div class="p-4 bg-neutral-50 rounded-xl">
+            <label class="text-xs uppercase font-bold tracking-widest opacity-40">Story</label>
+            <p class="text-sm text-[#001F3F]/80 line-clamp-3 italic mt-1">"${appState.details}"</p>
+          </div>
+        </div>
+
+        <div class="p-8 pt-0 flex gap-4">
+          <button onclick="app.goToStep('details')" class="flex-1 p-4 rounded-xl font-bold border border-neutral-200 hover:bg-neutral-50">
+            Edit
+          </button>
+          <button onclick="app.submitReport()" class="flex-[2] p-4 rounded-xl font-bold bg-[#001F3F] text-[#FFD700] flex items-center justify-center gap-2">
+            ✅ Yes, Submit
+          </button>
+        </div>
+      `;
+      container.appendChild(step);
+    }
+
+    // ===== TASK PAGE =====
+    function initTaskPage() {
+      loadReports();
+    }
+
+    function loadReports() {
+      // Load from localStorage
+      const stored = localStorage.getItem('reports');
+      if (stored) {
+        appState.reports = JSON.parse(stored);
+      }
+
+      const myTab = document.querySelector('#task-my');
+      if (appState.reports.length > 0) {
+        myTab.innerHTML = '<div class="grid gap-4" id="reports-grid"></div>';
+        const grid = myTab.querySelector('#reports-grid');
+
+        appState.reports.forEach(report => {
+          const div = document.createElement('div');
+          div.className = 'bg-white p-6 rounded-2xl border border-[#001F3F]/5 shadow-sm hover:shadow-md transition-all group flex items-center gap-6';
+          div.innerHTML = `
+            <div class="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 bg-blue-100 text-blue-600">
+              🕐
+            </div>
+            
+            <div class="flex-1 space-y-1">
+              <div class="flex items-center gap-3">
+                <span class="text-xs bg-neutral-100 px-2 py-0.5 rounded font-mono font-bold text-[#001F3F]/60">#${report.id.substring(0, 8).toUpperCase()}</span>
+                <h3 class="font-bold text-[#001F3F] text-lg">${report.category}</h3>
+              </div>
+              <p class="text-sm text-[#001F3F]/60 line-clamp-1">${report.description}</p>
+            </div>
+
+            <div class="text-right space-y-1">
+              <div class="px-3 py-1 rounded-full text-xs font-black uppercase tracking-widest bg-blue-100 text-blue-600">
+                ${report.status || 'new'}
+              </div>
+              <p class="text-xs opacity-40 font-bold">2 hours ago</p>
+            </div>
+
+            <button class="p-3 bg-neutral-50 rounded-xl hover:bg-[#FFD700] hover:text-[#001F3F] transition-all">
+              →
+            </button>
+          `;
+          grid.appendChild(div);
+        });
+      }
+    }
+
+    function switchTab(tab) {
+      document.querySelectorAll('.task-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.task-content').forEach(c => c.classList.add('hidden'));
+
+      event.target.classList.add('active');
+      document.getElementById('task-' + tab).classList.remove('hidden');
+    }
+
+    function searchTracking() {
+      const input = document.getElementById('tracking-id-input').value.toUpperCase();
+      if (!input) return;
+
+      const report = appState.reports.find(r => r.id.substring(0, 8).toUpperCase() === input.replace('SH-', ''));
+
+      const resultDiv = document.getElementById('tracking-result');
+      if (report) {
+        resultDiv.innerHTML = `
+          <h3 class="text-xl font-bold text-[#001F3F]">✅ Report Found</h3>
+          <div class="space-y-3 text-sm">
+            <div>
+              <label class="text-xs uppercase font-bold text-[#001F3F]/60">Tracking ID</label>
+              <p class="font-mono font-bold text-[#001F3F]">SH-${report.id.substring(0, 8).toUpperCase()}</p>
+            </div>
+            <div>
+              <label class="text-xs uppercase font-bold text-[#001F3F]/60">Category</label>
+              <p class="font-bold text-[#001F3F]">${report.category}</p>
+            </div>
+            <div>
+              <label class="text-xs uppercase font-bold text-[#001F3F]/60">Status</label>
+              <p class="font-bold text-blue-600">${report.status || 'New'}</p>
+            </div>
+            <div>
+              <label class="text-xs uppercase font-bold text-[#001F3F]/60">Description</label>
+              <p class="text-[#001F3F]/80">${report.description}</p>
+            </div>
+          </div>
+        `;
+        resultDiv.classList.remove('hidden');
+      } else {
+        resultDiv.innerHTML = `
+          <h3 class="text-xl font-bold text-red-600">❌ Report Not Found</h3>
+          <p class="text-sm text-[#001F3F]/60">Please check your Tracking ID and try again.</p>
+        `;
+        resultDiv.classList.remove('hidden');
+      }
+    }
+
+    // ===== REPORT SUBMISSION =====
+    const app = {
+      goToStep(step) {
+        appState.currentStep = step;
+        renderReportStep();
+      },
+      submitReport() {
+        // Generate tracking ID
+        const id = 'SH' + Math.random().toString(36).substring(2, 11).toUpperCase();
+        
+        const report = {
+          id,
+          category: CATEGORIES.find(c => c.id === appState.selectedCategory)?.label || 'Unknown',
+          region: appState.locations.region,
+          city: appState.locations.city,
+          area: appState.locations.area,
+          description: appState.details,
+          isAnonymous: appState.isAnonymous,
+          name: appState.isAnonymous ? null : appState.reporterInfo.name,
+          phone: appState.isAnonymous ? null : appState.reporterInfo.phone,
+          status: 'new',
+          createdAt: new Date().toISOString()
+        };
+
+        // Save to localStorage
+        appState.reports.push(report);
+        localStorage.setItem('reports', JSON.stringify(appState.reports));
+
+        // Show success
+        appState.trackingId = id;
+        showSuccessScreen(id);
+      }
+    };
+
+    function showSuccessScreen(id) {
+      const container = document.getElementById('report-steps-container');
+      container.innerHTML = `
+        <div class="text-center space-y-8 py-12 slide-up">
+          <div class="w-24 h-24 bg-[#FFD700] rounded-full flex items-center justify-center mx-auto shadow-xl text-5xl">
+            ✅
+          </div>
+          <div class="space-y-4">
+            <h1 class="text-4xl font-black text-[#001F3F]">Report Submitted!</h1>
+            <p class="text-[#001F3F]/60 max-w-lg mx-auto">
+              Your report has been successfully filed and routed to the <span class="font-bold text-[#001F3F]">Douala III Council</span> authority through the Solution Hub Routing Engine.
+            </p>
+          </div>
+
+          <div class="bg-white p-8 rounded-3xl border border-[#FFD700]/30 shadow-xl max-w-md mx-auto space-y-4">
+            <div class="space-y-1">
+              <label class="text-xs uppercase font-bold tracking-widest opacity-40">Your Tracking ID</label>
+              <p class="text-2xl font-mono font-bold tracking-tighter text-[#001F3F]">
+                SH-${id.substring(0, 8)}
+              </p>
+            </div>
+            <div class="flex gap-4">
+              <button onclick="copyToClipboard('SH-${id.substring(0, 8)}')" class="flex-1 p-3 rounded-xl border border-neutral-200 text-sm font-bold hover:bg-neutral-50">Copy ID</button>
+              <button class="flex-1 p-3 rounded-xl bg-[#001F3F] text-[#FFD700] text-sm font-bold">Share on WhatsApp</button>
+            </div>
+          </div>
+
+          <div class="flex justify-center gap-6">
+            <button onclick="resetReport()" class="text-[#001F3F] font-bold underline">
+              File Another Report
+            </button>
+            <button onclick="goToPage('task')" class="text-[#001F3F] font-bold underline">
+              Track My Reports
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    function resetReport() {
+      appState.currentStep = 'category';
+      appState.selectedCategory = null;
+      appState.locations = { region: '', city: '', area: '' };
+      appState.details = '';
+      appState.isAnonymous = false;
+      appState.reporterInfo = { name: '', phone: '', email: '' };
+      initReportPage();
+    }
+
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        alert('Copied: ' + text);
+      });
+    }
+
+    // ===== INITIALIZATION =====
+    window.addEventListener('DOMContentLoaded', () => {
+      // Initialize
+      loadReports();
+    });
+  </script>
+</body>
+</html>
